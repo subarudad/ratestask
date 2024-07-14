@@ -63,3 +63,12 @@ Click `Execute` button
      ...                                                                                                                                                
  ]
 ```
+
+
+## Improvements
+
+### Add database connection pool
+### Add database caching
+### Add HTTP cache
+### Secure the APIs
+
