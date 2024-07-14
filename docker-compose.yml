@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: rates-api
+    build:
+      context: ./
+      target: rates-api
+    entrypoint:
+      - flask
+      - run
+      - --host=0.0.0.0
+    depends_on:
+      - db
+      - cache
+    ports:
+      - '8081:5000'
+    environment:
+      APP_NAME: ${APP_NAME}
+      APP_VERSION: ${APP_VERSION}
+      FLASK_DEBUG: 1
+      FLASK_APP: ./app.py
+      FLASK_ENV:
+      DB_HOST: db
+      DB_USER: ${PG_USERNAME}
+      DB_PASSWORD: ${PG_PASSWORD}
+      DB_NAME: ${PG_DATABASE}
+      REDIS_HOST: cache
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PWD}
+      VIRTUAL_HOST: rates.docker
+
+    links:
+      - db
+      - cache
+    volumes:
+      - ./ratestask:/ratestask
+
+  cache:
+    image: redis:7.2.5
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass ${REDIS_PWD}
+    volumes:
+      - cache:/data
+
+  db:
+    container_name: rates-pg
+    build:
+      context: ./db
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: ${PG_USERNAME}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DATABASE}
+      VIRTUAL_HOST: postgres.docker
+    volumes:
+      - ./db/rates.sql:/docker-entrypoint-initdb.d/rates.sql
+      - ./postgres-data:/var/lib/postgresql/data
+
+
+volumes:
+  postgres-data:
+    driver: local
+  cache:
+    driver: local
