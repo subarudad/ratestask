@@ -5,9 +5,9 @@
 ### Using Docker Compose
 
 Build the Docker image and start the containers:
-    ```                                                                                                                                            
-    docker compose up                                                                                                                        
-    ```                                                                                                                                                
+```sh                                                                                                                                           
+> docker compose up                                                                                                                        
+```                                                                                                                                                
                                                                                                                                           
 
 
