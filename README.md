@@ -4,7 +4,7 @@
 
 ### Using Docker Compose
 
-Build the Docker image and start the containers:
+Build the Docker images and start the containers:
 ```sh                                                                                                                                           
 > docker compose up                                                                                                                        
 ```                                                                                                                                                
@@ -65,10 +65,10 @@ Click `Execute` button
 ```
 
 
-## Improvements
+## Future improvements
 
-### Add database connection pool
+### Add database connection pooling
 ### Add database caching
 ### Add HTTP cache
-### Secure the APIs
+### Secure the APIs with authentication and authorization
 
